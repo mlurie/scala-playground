@@ -11,12 +11,11 @@ object Weather {
     val baseUrl = "https://www.metaweather.com/api/location"
     val locUrl = baseUrl + "/search/"
     val weatherUrl = baseUrl + "/%s/"
-    val rLoc = Gigahorse.url(locUrl).get.
-      addQueryString("query" -> "New York")
+    val rLoc = Gigahorse.url(locUrl).get.addQueryString("query" -> "New York")
     import ExecutionContext.Implicits.global
     for {
       loc <- http.run(rLoc, parse)
-      woeid = (loc \ 0  \ "woeid").get
+      woeid = (loc \ 0 \ "woeid").get
       rWeather = Gigahorse.url(weatherUrl format woeid).get
       weather <- http.run(rWeather, parse)
     } yield (weather \\ "weather_state_name")(0).as[String].toLowerCase
