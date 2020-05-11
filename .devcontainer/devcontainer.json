@@ -3,7 +3,7 @@
 {
 	"name": "scala-playground",
 	// "dockerFile": "Dockerfile",
-	"image": "docker.pkg.github.com/mlurie/scala-playground/scalaplaygrounddev:0.1",
+	"image": "mlurie/scalaplaygrounddev:0.1",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
