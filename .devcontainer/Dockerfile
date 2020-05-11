@@ -45,25 +45,29 @@ ENV DEBIAN_FRONTEND=dialog
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-   && apt-get -y install --no-install-recommends zip dirmngr gpg-agent openjdk-11-jdk software-properties-common \
+   && apt-get -y install --no-install-recommends zip dirmngr gpg-agent gnupg-agent socat openjdk-11-jdk software-properties-common \
+   && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+   && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+   && apt-get update \
+   && apt-get install docker-ce-cli \
    && wget https://piccolo.link/sbt-1.3.10.tgz -O /opt/sbt.tgz \
    && tar xvzf /opt/sbt.tgz -C /opt \
    && rm /opt/sbt.tgz \
    && ln -s /opt/sbt/bin/sbt /usr/bin/sbt \
-   # && add-apt-repository ppa:deadsnakes/ppa \
-   # && apt-get -y install --no-install-recommends python3.7 python3-pip \
-   # && rm /usr/bin/python3 \
-   # && ln -s /usr/bin/python3.7 /usr/bin/python3 \
-   # && ln -s /usr/bin/python3 /usr/bin/python \
-   # && ln -s /usr/bin/pip3 /usr/bin/pip \
-   # && pip install setuptools \
-   # && pip install wheel \
-   # && pip install pypandoc \
-   # && pip install ipython \
-   # && pip install numpy \ 
-   # && pip install pyarrow \
-   # && pip install pandas  \
-   # && pip install pyspark \
+   && add-apt-repository ppa:deadsnakes/ppa \
+   && apt-get -y install --no-install-recommends python3.7 python3-pip \
+   && rm /usr/bin/python3 \
+   && ln -s /usr/bin/python3.7 /usr/bin/python3 \
+   && ln -s /usr/bin/python3 /usr/bin/python \
+   && ln -s /usr/bin/pip3 /usr/bin/pip \
+   && pip install setuptools \
+   && pip install wheel \
+   && pip install pypandoc \
+   && pip install ipython \
+   && pip install numpy \ 
+   && pip install pyarrow \
+   && pip install pandas  \
+   && pip install pyspark \
    #
    # Clean up
    && apt-get autoremove -y \
